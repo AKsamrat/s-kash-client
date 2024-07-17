@@ -47,7 +47,7 @@ const Sendmoney = () => {
     // toast.error('product already exist');
   };
   return (
-    <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 p-10">
+    <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 lg:p-10">
       <p className="text-3xl font-bold text-center pb-3">
         S-<span className="text-blue-600">Kash</span>
       </p>

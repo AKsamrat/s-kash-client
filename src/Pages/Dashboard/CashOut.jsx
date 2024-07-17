@@ -1,16 +1,45 @@
 import React from 'react';
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const CashOut = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
-
     const mobileNo = form.MobileNo.value;
+    const amount = form.amount.value;
     const password = form.password.value;
+    const percentage = (parseInt(amount) * 1.5) / 100;
+    let totalAmount = parseInt(amount) + percentage;
+    console.log(totalAmount);
+
+    const transactionData = {
+      mobileNo,
+      totalAmount,
+      password,
+      senderEmail: user.email,
+      type: 'Cash Out',
+      percentage,
+    };
+    console.log(transactionData);
+    const assetRes = await axiosSecure.post('/cash-out', transactionData);
+    console.log(assetRes.data);
+    if (assetRes.data.insertedId) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your cash-out req. has been send',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   return (
-    <div className="w-64 lg:w-96 mx-auto">
-      <p className="text-3xl font-bold text-center py-3">
+    <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 lg:p-10">
+      <p className="text-3xl font-bold text-center pb-3">
         S-<span className="text-blue-600">Kash</span>
       </p>
       <h1 className="text-center text-2xl font-semibold">Cash Out</h1>
@@ -74,7 +103,7 @@ const CashOut = () => {
         <div>
           <button
             type="submit"
-            className="bg-[#FEBF32] w-full rounded-md py-3 text-white"
+            className="bg-blue-400 w-full rounded-md py-3 text-white"
           >
             Continue
           </button>

@@ -18,6 +18,7 @@ const SignUp = () => {
     const email = form.email.value;
     const mobileNo = form.MobileNo.value;
     const password = form.password.value;
+    const role = form.type.value;
     const image = form.image.files[0];
 
     try {
@@ -27,7 +28,7 @@ const SignUp = () => {
         username,
         email,
         password,
-        role: 'user',
+        role,
         image_url,
         mobileNo,
       };
@@ -113,6 +114,15 @@ const SignUp = () => {
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
               />
+            </div>
+            <div className="flex flex-col gap-2 ">
+              <label className="text-gray-700 " htmlFor="category">
+                Type
+              </label>
+              <select name="type" id="type" className="border p-2 rounded-md">
+                <option value="User">User</option>
+                <option value="Agent">Agent</option>
+              </select>
             </div>
 
             <div>

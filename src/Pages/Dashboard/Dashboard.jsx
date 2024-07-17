@@ -27,9 +27,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {role === 'user' && <UserMenue></UserMenue>}
-        {role === 'agent' && <AgentMenue />}
-        {role === 'admin' && <AdminMenue />}
+        {role === 'User' && <UserMenue></UserMenue>}
+        {role === 'Agent' && <AgentMenue />}
+        {role === 'Admin' && <AdminMenue />}
       </div>
     </div>
   );

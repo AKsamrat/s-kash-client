@@ -5,10 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import useAxiosCommon from '../hooks/useAxiosCommon';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
+  const axiosCommon = useAxiosCommon();
   const { user, logout } = useAuth();
 
   const {
@@ -17,7 +18,7 @@ const Navbar = () => {
     refetch,
   } = useQuery({
     queryFn: async () => {
-      const { data } = await axiosSecure(`/user-balance/${user?.email}`);
+      const { data } = await axiosCommon(`/user-balance/${user?.email}`);
       console.log(data);
       return data;
     },
@@ -45,14 +46,9 @@ const Navbar = () => {
               {/* <img className="h-8" src={logo} alt="" /> */}
             </a>
             <div>
-              {userData.map(udata => (
-                <p
-                  key={udata._id}
-                  className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg"
-                >
-                  Balance {udata?.balance}$
-                </p>
-              ))}
+              <p className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg">
+                Balance {userData?.balance}$
+              </p>
             </div>
 
             <div className="items-center flex-shrink-0 hidden lg:flex">

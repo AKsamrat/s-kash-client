@@ -1,16 +1,42 @@
 import React from 'react';
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const CashIn = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
-
     const mobileNo = form.MobileNo.value;
-    const password = form.password.value;
+    const amount = form.amount.value;
+
+    let totalAmount = parseInt(amount);
+    console.log(totalAmount);
+
+    const transactionData = {
+      mobileNo,
+      totalAmount,
+      senderEmail: user.email,
+      type: 'Cash In',
+    };
+    console.log(transactionData);
+    const assetRes = await axiosSecure.post('/cash-in', transactionData);
+    console.log(assetRes.data);
+    if (assetRes.data.insertedId) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your cash-in req. has been send',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   return (
-    <div className="w-64 lg:w-96 mx-auto">
-      <p className="text-3xl font-bold text-center py-3">
+    <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 lg:p-10 ">
+      <p className="text-3xl font-bold text-center pb-3">
         S-<span className="text-blue-600">Kash</span>
       </p>
       <h1 className="text-center text-2xl font-semibold">Cash In</h1>
@@ -57,7 +83,7 @@ const CashIn = () => {
         <div>
           <button
             type="submit"
-            className="bg-[#FEBF32] w-full rounded-md py-3 text-white"
+            className="bg-blue-400 w-full rounded-md py-3 text-white"
           >
             Continue
           </button>
