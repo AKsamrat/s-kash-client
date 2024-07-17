@@ -18,15 +18,10 @@ const Dashboard = () => {
           />
           <div>
             <h2 className="text-lg font-semibold">{user?.username}</h2>
-            <span className="flex items-center space-x-1">
-              <a
-                rel="noopener noreferrer"
-                href="#"
-                className="text-xs hover:underline dark:text-gray-600"
-              >
-                {user?.role}
-              </a>
-            </span>
+            <p>{user?.mobileNo}</p>
+            <p className="  bg-green-300 space-x-1 rounded-2xl p-1 text-center font-bold ">
+              {user?.role}
+            </p>
           </div>
         </div>
 

@@ -10,8 +10,8 @@ const UserMenue = () => {
     <div>
       <MenuItem
         icon={TbLocationDollar}
-        label="sendMoney"
-        address="Send Money"
+        label="Send Money"
+        address="sendMoney"
       />
       <MenuItem icon={TbUserDollar} label="Cash Out" address="cashOut" />
       <MenuItem icon={FaHandHoldingDollar} label="Cash In" address="cashIn" />
