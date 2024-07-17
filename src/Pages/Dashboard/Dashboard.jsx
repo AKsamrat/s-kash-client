@@ -2,6 +2,8 @@ import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import UserMenue from '../../Menue/UserMenue';
+import AgentMenue from '../../Menue/AgentMenue';
+import AdminMenue from '../../Menue/AdminMenue';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -26,6 +28,8 @@ const Dashboard = () => {
         </div>
 
         {role === 'user' && <UserMenue></UserMenue>}
+        {role === 'agent' && <AgentMenue />}
+        {role === 'admin' && <AdminMenue />}
 
         {/* <div className="divide-y dark:divide-gray-300">
           <ul className="pt-2 pb-4 space-y-1 text-sm">
