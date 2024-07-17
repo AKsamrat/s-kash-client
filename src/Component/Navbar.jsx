@@ -45,9 +45,14 @@ const Navbar = () => {
               {/* <img className="h-8" src={logo} alt="" /> */}
             </a>
             <div>
-              <p className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg">
-                Balance {user?.balance}$
-              </p>
+              {userData.map(udata => (
+                <p
+                  key={udata._id}
+                  className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg"
+                >
+                  Balance {udata?.balance}$
+                </p>
+              ))}
             </div>
 
             <div className="items-center flex-shrink-0 hidden lg:flex">
