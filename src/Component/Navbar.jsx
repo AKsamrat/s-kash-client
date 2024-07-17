@@ -1,9 +1,17 @@
 import React from 'react';
 // import logo from '../assets/logo dark.png';
 import { GoArrowUpRight } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+    console.log('logout');
+    navigate('/login');
+  };
   return (
     <div className="bg-gradient-to-r from-[#e5f6ffbe] from-30% via-[#02004307] via-40%  to-[#e5f6ffbe]">
       <div className="max-w-7xl mx-auto ">
@@ -22,12 +30,21 @@ const Navbar = () => {
             </a>
 
             <div className="items-center flex-shrink-0 hidden lg:flex">
-              <Link
-                to={'/login'}
-                className="self-center  py-2 border-slate-500  flex justify-center items-center gap-1 border-2 rounded-xl px-3 "
-              >
-                LogIn <GoArrowUpRight />
-              </Link>
+              {user ? (
+                <Link
+                  onClick={handleLogout}
+                  className="self-center  py-2 border-slate-500  flex justify-center items-center gap-1 border-2 rounded-xl px-3 "
+                >
+                  LogOut <GoArrowUpRight />
+                </Link>
+              ) : (
+                <Link
+                  to={'/login'}
+                  className="self-center  py-2 border-slate-500  flex justify-center items-center gap-1 border-2 rounded-xl px-3 "
+                >
+                  LogIn <GoArrowUpRight />
+                </Link>
+              )}
             </div>
             <button className="p-4 lg:hidden">
               <svg

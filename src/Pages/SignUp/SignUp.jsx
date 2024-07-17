@@ -4,34 +4,42 @@ import { imageUpload } from './../../api/util/index';
 import { useState } from 'react';
 import axios from 'axios';
 
+import useAuth from '../../hooks/useAuth';
+
 const SignUp = () => {
+  const { register } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
+    const username = form.name.value;
     const email = form.email.value;
-
+    const mobileNo = form.MobileNo.value;
     const password = form.password.value;
     const image = form.image.files[0];
 
     try {
       const image_url = await imageUpload(image);
-      console.log(name);
+      console.log(username);
       const hrData = {
-        name,
+        username,
         email,
         password,
         role: 'user',
         image_url,
+        mobileNo,
       };
 
-      await axios.put(`${import.meta.env.VITE_API_URL}/user`, hrData);
-      navigate('/');
-
-      toast.success('Signup Succesfully');
+      const res = await register(hrData);
+      if (res.success) {
+        form.reset();
+        toast.success('Successfully Registered!');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1000);
+      }
     } catch (err) {
       console.log(err);
       toast.error('err.massage');
@@ -75,6 +83,21 @@ const SignUp = () => {
                 id="image"
                 name="image"
                 accept="image/*"
+              />
+            </div>
+            <div>
+              <div className="flex justify-between">
+                <label htmlFor="password" className="text-sm mb-2">
+                  Mobile Number
+                </label>
+              </div>
+              <input
+                type="tel"
+                name="MobileNo"
+                id="phone"
+                required
+                placeholder="phone number"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
               />
             </div>
             <div>

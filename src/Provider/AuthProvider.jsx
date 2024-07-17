@@ -1,127 +1,75 @@
-import React, { createContext, useEffect, useState } from 'react';
-
-import {
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
-
-import app from '../Firebase/Firebase.config';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import useAxiosCommon from '../hooks/useAxiosCommon';
+import { jwtDecode } from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
 export const AuthContext = createContext(null);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const axiosCommon = useAxiosCommon();
-
-  //create user
-
-  const createUser = (email, password) => {
-    setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
-  };
-
-  //login
-
-  const signIn = (email, password) => {
-    setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  //login with google
-
-  const googleLogin = () => {
-    setLoading(true);
-    return signInWithPopup(auth, googleProvider);
-  };
-
-  //logOut
-
-  const logOut = () => {
-    return signOut(auth);
-  };
-
-  //save user
-  // console.log(dateOfBirth);
-  // const saveUser = async (user, dateOfBirth) => {
-  //   const currentUser = {
-  //     email: user?.email,
-  //     role: 'employee',
-  //     hrData: dateOfBirth,
-  //   };
-  //   const { data } = await axios.put(
-  //     `${import.meta.env.VITE_API_URL}/user`,
-  //     currentUser
-  //   );
-  //   return data;
-  // };
-
-  //profileupdsate
-
-  const profileUpdate = (name, photo) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photo,
-    });
-  };
-
-  const allInfo = {
-    user,
-    createUser,
-    signIn,
-    googleLogin,
-    logOut,
-    profileUpdate,
-    loading,
-    setUser,
-    setReload,
-    setLoading,
-    setDateOfBirth,
-  };
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, currentUser => {
-      const loggedUser = { email: currentUser?.email };
-      if (currentUser) {
-        setUser(currentUser);
-        // saveUser(currentUser, dateOfBirth);
-        console.log(currentUser);
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedUser = jwtDecode(token);
+      setUser(decodedUser);
+    }
+    setLoading(false);
+  }, []);
 
-        axiosCommon.post(`/jwt`, loggedUser).then(res => {
-          if (res.data.token) {
-            localStorage.setItem('access-token', res.data.token);
-            setLoading(false);
-          }
-          // console.log('token Response', res.data);
-        });
+  const register = async user => {
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/register`,
+        user
+      );
+      return data;
+    } catch (error) {
+      toast.error('Something Went Wrong!');
+    }
+  };
+
+  const login = async (email, password) => {
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        { email, password }
+      );
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        const decodedUser = jwtDecode(data.token);
+        setUser(decodedUser);
+        return data;
       } else {
-        localStorage.removeItem('access-token');
-        setUser(null);
-
-        setLoading(false);
-        toast.success('Logout Successfully');
+        return data;
       }
-    });
+    } catch (error) {
+      toast.error('Something Went Wrong!');
+    }
+  };
 
-    return () => {
-      return unsubscribe();
-    };
-  }, [axiosCommon]);
+  const logout = () => {
+    localStorage.removeItem('token');
+    console.log('logout');
+    setUser(null);
+    toast.success('Logged out successfully');
+  };
+
+  const forgetPassword = async (email, password) => {
+    const { data } = await axios.patch(
+      `${import.meta.env.VITE_SERVER_API}/forget_password/${email}`,
+      { password }
+    );
+    return data;
+  };
+
+  const userInfo = { user, register, login, logout, loading, forgetPassword };
+
   return (
-    <AuthContext.Provider value={allInfo}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={userInfo}>
+      {children}
+      <Toaster position="top-right" reverseOrder={true} />
+    </AuthContext.Provider>
   );
 };
 

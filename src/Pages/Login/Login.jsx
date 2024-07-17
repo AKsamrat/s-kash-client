@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
 import toast from 'react-hot-toast';
-
 import { useState } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,11 +17,17 @@ const Login = () => {
     setEmail(email);
     const password = form.password.value;
     try {
-      // setLoading(true);
-
-      // await signIn(email, password);
-      navigate(from);
-      toast.success('Signup Succesfully');
+      const res = await login(email, password);
+      console.log(email, password);
+      if (res.success) {
+        toast.success(res.message);
+        form.reset();
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      } else {
+        toast.error(res.message);
+      }
     } catch (err) {
       console.log(err);
       toast.error('err.massage');
@@ -49,7 +55,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
-                onBlur={e => setEmail(e.target.value)}
+                // onBlur={e => setEmail(e.target.value)}
                 id="email"
                 required
                 placeholder="Enter Your Email Here"
@@ -60,7 +66,7 @@ const Login = () => {
             <div>
               <div className="flex justify-between">
                 <label htmlFor="password" className="text-sm mb-2">
-                  Password
+                  Pin
                 </label>
               </div>
               <input

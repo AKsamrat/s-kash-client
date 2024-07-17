@@ -8,6 +8,11 @@ import Roots from './Root/Roots.jsx';
 import Dashboard from './Pages/Dashboard/Dashboard.jsx';
 import Login from './Pages/Login/Login.jsx';
 import SignUp from './Pages/SignUp/SignUp.jsx';
+import AuthProvider from './Provider/AuthProvider.jsx';
+import Sendmoney from './Pages/Dashboard/Sendmoney.jsx';
+import CashIn from './Pages/Dashboard/CashIn.jsx';
+import CashOut from './Pages/Dashboard/CashOut.jsx';
+import TransactionHistory from './Pages/Dashboard/TransactionHistory.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -15,8 +20,20 @@ const router = createBrowserRouter([
     // errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
-        element: <Dashboard />,
+        path: '/sendMoney',
+        element: <Sendmoney />,
+      },
+      {
+        path: '/cashIn',
+        element: <CashIn />,
+      },
+      {
+        path: '/cashOut',
+        element: <CashOut />,
+      },
+      {
+        path: '/transactionHistory',
+        element: <TransactionHistory />,
       },
     ],
   },
@@ -32,6 +49,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
