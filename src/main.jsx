@@ -4,7 +4,7 @@ import App from './App.jsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Roots from './Root/Roots.jsx';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Login from './Pages/Login/Login.jsx';
 import SignUp from './Pages/SignUp/SignUp.jsx';
 import AuthProvider from './Provider/AuthProvider.jsx';
@@ -15,6 +15,7 @@ import TransactionHistory from './Pages/Dashboard/TransactionHistory.jsx';
 import TransactionManagement from './Pages/Dashboard/TransactionManagement.jsx';
 import UserManagement from './Pages/Dashboard/UserManagement.jsx';
 import SystemMonitoring from './Pages/Dashboard/SystemMonitoring';
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: '/',
@@ -64,7 +65,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>
 );

@@ -3,10 +3,26 @@ import React from 'react';
 import { GoArrowUpRight } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const { user, logout } = useAuth();
+
+  const {
+    data: userData = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryFn: async () => {
+      const { data } = await axiosSecure(`/user-balance/${user?.email}`);
+      console.log(data);
+      return data;
+    },
+    queryKey: ['userData', user],
+  });
   const handleLogout = () => {
     logout();
     console.log('logout');
@@ -16,7 +32,7 @@ const Navbar = () => {
     <div className="bg-gradient-to-r from-[#e5f6ffbe] from-30% via-[#02004307] via-40%  to-[#e5f6ffbe]">
       <div className="max-w-7xl mx-auto ">
         <header className="p-2 dark:bg-gray-100 dark:text-gray-800">
-          <div className="container flex justify-between  mx-auto">
+          <div className="container flex justify-between items-center  mx-auto">
             <a
               rel="noopener noreferrer"
               href="#"
@@ -28,6 +44,11 @@ const Navbar = () => {
               </p>
               {/* <img className="h-8" src={logo} alt="" /> */}
             </a>
+            <div>
+              <p className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg">
+                Balance {user?.balance}$
+              </p>
+            </div>
 
             <div className="items-center flex-shrink-0 hidden lg:flex">
               {user ? (

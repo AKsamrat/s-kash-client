@@ -1,16 +1,54 @@
 import React from 'react';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 
 const Sendmoney = () => {
+  const { user, login } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const handleSubmit = async e => {
     e.preventDefault();
     const form = e.target;
-
     const mobileNo = form.MobileNo.value;
+    const amount = form.amount.value;
     const password = form.password.value;
+    if (amount < 50) {
+      return toast('Minimum transaction is 50 ');
+    }
+    let totalAmount = 0;
+    if (amount >= 100) {
+      totalAmount = parseInt(amount) + 5;
+    } else {
+      totalAmount = parseInt(amount);
+    }
+    if (totalAmount > user.balance) {
+      return toast('You have not sufficient balance ');
+    }
+    const transactionData = {
+      mobileNo,
+      totalAmount,
+      password,
+      senderEmail: user.email,
+    };
+    console.log(transactionData);
+    const assetRes = await axiosSecure.post('/send-Money', transactionData);
+    console.log(assetRes.data);
+    if (assetRes.data.insertedId) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your payment has been send',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
+    // toast.error('product already exist');
   };
   return (
-    <div className="w-64 lg:w-96 mx-auto">
-      <p className="text-3xl font-bold text-center py-3">
+    <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 p-10">
+      <p className="text-3xl font-bold text-center pb-3">
         S-<span className="text-blue-600">Kash</span>
       </p>
       <h1 className="text-center text-2xl font-semibold">Send Money</h1>
@@ -74,7 +112,7 @@ const Sendmoney = () => {
         <div>
           <button
             type="submit"
-            className="bg-[#FEBF32] w-full rounded-md py-3 text-white"
+            className="bg-blue-400 w-full rounded-md py-3 text-white"
           >
             Continue
           </button>

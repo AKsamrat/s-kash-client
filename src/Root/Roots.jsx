@@ -10,7 +10,7 @@ const Roots = () => {
     <div>
       <Navbar></Navbar>
       {user ? (
-        <div className="relative min-h-screen md:flex">
+        <div className="relative min-h-screen flex">
           <div>
             <Dashboard />
           </div>
