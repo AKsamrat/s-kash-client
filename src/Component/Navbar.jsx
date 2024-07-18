@@ -46,8 +46,8 @@ const Navbar = () => {
               {/* <img className="h-8" src={logo} alt="" /> */}
             </a>
             <div>
-              <p className="bg-orange-400 rounded-2xl px-4 py-1 font-semibold text-white text-lg">
-                Balance {userData?.balance}$
+              <p className="bg-orange-400 rounded-xl px-4 py-1 font-medium text-white text-lg">
+                Balance- {userData?.balance}$
               </p>
             </div>
 

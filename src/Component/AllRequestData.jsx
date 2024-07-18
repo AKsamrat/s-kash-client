@@ -7,20 +7,23 @@ const AllRequestData = ({ refetch, asset }) => {
   const axiosSecure = useAxiosSecure();
 
   //approve request=====================
-  const reqData = {
-    assetId: asset?._id,
-  };
+
   const handleApprove = id => {
     console.log(id);
-    axiosSecure.patch(`/approve-request/${id}`, reqData).then(res => {
+    axiosSecure.patch(`/approve-request/${id}`).then(res => {
       console.log(res.data);
-      if (res.data.modifiedCount > 0) {
+      if (res.data.insertedId > 0) {
         refetch();
         Swal.fire({
-          title: 'Deleted!',
-          text: 'Your file has been deleted.',
+          title: 'Approved',
+          text: 'Your transaction has been approved',
           icon: 'success',
         });
+      }
+    });
+    axiosSecure.delete(`/reject-request/${id}`).then(res => {
+      if (res.data.deletedCount > 0) {
+        refetch();
       }
     });
   };
@@ -40,7 +43,7 @@ const AllRequestData = ({ refetch, asset }) => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/reject-request/${id}`).then(res => {
           if (res.data.deletedCount > 0) {
-            // refetch();
+            refetch();
             Swal.fire({
               title: 'Deleted!',
               text: 'Your file has been deleted.',

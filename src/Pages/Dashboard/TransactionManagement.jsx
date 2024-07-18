@@ -11,7 +11,7 @@ const TransactionManagement = () => {
 
   const {
     data: reqData = [],
-    isLoading,
+
     refetch,
   } = useQuery({
     queryFn: async () => {
@@ -26,6 +26,9 @@ const TransactionManagement = () => {
 
   return (
     <div>
+      <h2 className="text-3xl font-bold text-center uppercase lg:mt-7">
+        ---Transaction Request---
+      </h2>
       <div className="py-8">
         <div className=" sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
