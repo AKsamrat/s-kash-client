@@ -38,6 +38,7 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen pt-16">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
         <div className="mb-8 text-center">
+          <img className="w-28 h-14" src="sk_logo.png" alt="" />
           <h1 className="my-3 text-4xl font-bold">Log In</h1>
           <p className="text-sm text-gray-400">
             Sign in to access your account

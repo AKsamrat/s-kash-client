@@ -26,7 +26,7 @@ const TransactionManagement = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-center uppercase lg:mt-7">
+      <h2 className="text-xl lg:text-3xl font-bold text-center uppercase lg:mt-7">
         ---Transaction Request---
       </h2>
       <div className="py-8">

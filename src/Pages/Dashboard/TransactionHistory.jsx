@@ -2,16 +2,16 @@ import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
 
 const TransactionHistory = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  if (user.status !== 'Active') {
+    return toast.error('Your Account is not Active Yet');
+  }
 
-  const {
-    data: reqData = [],
-
-    refetch,
-  } = useQuery({
+  const { data: reqData = [], refetch } = useQuery({
     queryFn: async () => {
       const { data } = await axiosSecure(`/transaction-history/${user?.email}`);
       console.log(data);
@@ -21,7 +21,7 @@ const TransactionHistory = () => {
   });
   return (
     <div>
-      <h2 className="text-3xl font-bold text-center uppercase lg:mt-7">
+      <h2 className="text-xl lg:text-3xl font-bold text-center uppercase lg:mt-7">
         ---Transaction History---
       </h2>
       <div className="py-8">

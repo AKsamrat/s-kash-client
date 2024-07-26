@@ -5,7 +5,7 @@ import { FaUsersCog } from 'react-icons/fa';
 
 const AdminMenue = () => {
   return (
-    <div>
+    <div className="flex flex-row lg:flex-col justify-center items-center lg:items-start gap-1">
       <MenuItem
         icon={FaUsersCog}
         label="User Management"

@@ -7,7 +7,7 @@ import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 
 const UserMenue = () => {
   return (
-    <div>
+    <div className="flex flex-row lg:flex-col items-center lg:items-start  gap-2">
       <MenuItem
         icon={TbLocationDollar}
         label="Send Money"

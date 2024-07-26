@@ -48,10 +48,11 @@ const Sendmoney = () => {
   };
   return (
     <div className="w-64 lg:w-96 mx-auto lg:border-2 rounded-2xl lg:border-slate-200 lg:p-10">
-      <p className="text-3xl font-bold text-center pb-3">
+      {/* <p className="text-3xl font-bold text-center pb-3">
         S-<span className="text-blue-600">Kash</span>
-      </p>
-      <h1 className="text-center text-2xl font-semibold">Send Money</h1>
+      </p> */}
+      <img className="w-28 h-14" src="sk_logo.png" alt="" />
+      <h1 className="text-center text-2xl font-semibold mt-4">Send Money</h1>
       <p className="text-center pb-4">Only User to User</p>
       <form
         onSubmit={handleSubmit}

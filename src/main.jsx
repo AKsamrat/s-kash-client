@@ -15,6 +15,8 @@ import TransactionHistory from './Pages/Dashboard/TransactionHistory.jsx';
 import TransactionManagement from './Pages/Dashboard/TransactionManagement.jsx';
 import UserManagement from './Pages/Dashboard/UserManagement.jsx';
 import SystemMonitoring from './Pages/Dashboard/SystemMonitoring';
+import AOS from 'aos';
+AOS.init();
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {

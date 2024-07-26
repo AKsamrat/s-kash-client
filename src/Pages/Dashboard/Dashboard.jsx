@@ -11,7 +11,7 @@ const Dashboard = () => {
   console.log(user, role);
   return (
     <div className="max-w-7xl mx-auto ">
-      <div className=" p-3 space-y-2 w-28 lg:w-64 bg-gray-50 dark:text-gray-800 h-[100vh]">
+      <div className=" p-3 space-y-2 w-full lg:w-64 bg-blue-50 dark:text-gray-800 lg:h-[100vh] ">
         <div className="flex flex-col lg:flex-row items-center p-2 space-x-4 ">
           <img
             src={user?.image_url}
