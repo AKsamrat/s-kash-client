@@ -5,7 +5,7 @@ import { FaCommentsDollar } from 'react-icons/fa6';
 
 const AgentMenue = () => {
   return (
-    <div className="flex flex-row lg:flex-col justify-center lg:items-center gap-3">
+    <div className="flex flex-row lg:flex-col items-center lg:items-start  gap-2">
       <MenuItem
         icon={FaCommentsDollar}
         label="Transaction Management"
