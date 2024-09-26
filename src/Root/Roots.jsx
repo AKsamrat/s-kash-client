@@ -21,7 +21,7 @@ const Roots = () => {
           </div>
         </div>
       ) : (
-        <div className=" pt-10">
+        <div className=" pt-10 ">
           <p className="text-4xl font-bold text-center text-slate-600">
             Welcome to S-Kash
           </p>
