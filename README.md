@@ -1,4 +1,4 @@
-## <code style="color:green"> Website Name: S-kasht</code>
+## <code style="color:green"> Website Name: S-kash</code>
 
 ### <code style="color:aqua"> Live Link:</code>
 
